@@ -1,8 +1,0 @@
-E:\Project\JSAC15\UserClient\bin\Debug\UserClient.exe
-E:\Project\JSAC15\UserClient\bin\Debug\UserClient.pdb
-E:\Project\JSAC15\UserClient\obj\x86\Debug\UserClient.Properties.Resources.resources
-E:\Project\JSAC15\UserClient\obj\x86\Debug\UserClient.csproj.GenerateResource.Cache
-E:\Project\JSAC15\UserClient\obj\x86\Debug\UserClient.exe
-E:\Project\JSAC15\UserClient\obj\x86\Debug\UserClient.pdb
-E:\Project\JSAC15\UserClient\obj\x86\Debug\UserClient.csprojResolveAssemblyReference.cache
-E:\Project\JSAC15\UserClient\obj\x86\Debug\UserClient.UserClientTest.resources
