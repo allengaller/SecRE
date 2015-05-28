@@ -1,0 +1,29 @@
+﻿Build started 2015/5/28 0:26:49.
+     1>Project "E:\Project\JSAC15\Caravel\Caravel.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Release\Caravel.unsuccessfulbuild".
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt AES.cpp BitConvert.cpp Digest.cpp PRF.cpp RSABlindSign.cpp SemCtl.cpp ShmCtl.cpp SSECuckoo.cpp TimeDiff.cpp
+         AES.cpp
+     1>e:\project\jsac15\caravel\AES.h(6): fatal error C1083: Cannot open include file: 'openssl/evp.h': No such file or directory
+         BitConvert.cpp
+     1>BitConvert.cpp(26): error C3861: 'snprintf': identifier not found
+         Digest.cpp
+     1>e:\project\jsac15\caravel\Digest.h(6): fatal error C1083: Cannot open include file: 'openssl/sha.h': No such file or directory
+         PRF.cpp
+     1>PRF.cpp(4): fatal error C1083: Cannot open include file: 'openssl/sha.h': No such file or directory
+         RSABlindSign.cpp
+     1>e:\project\jsac15\caravel\RSABlindSign.h(7): fatal error C1083: Cannot open include file: 'gmp.h': No such file or directory
+         SemCtl.cpp
+     1>e:\project\jsac15\caravel\SemCtl.h(4): fatal error C1083: Cannot open include file: 'sys/sem.h': No such file or directory
+         ShmCtl.cpp
+     1>e:\project\jsac15\caravel\ShmCtl.h(3): fatal error C1083: Cannot open include file: 'sys/shm.h': No such file or directory
+         SSECuckoo.cpp
+     1>e:\project\jsac15\caravel\Digest.h(6): fatal error C1083: Cannot open include file: 'openssl/sha.h': No such file or directory
+         TimeDiff.cpp
+     1>e:\project\jsac15\caravel\TimeDiff.h(6): fatal error C1083: Cannot open include file: 'sys/time.h': No such file or directory
+     1>Done Building Project "E:\Project\JSAC15\Caravel\Caravel.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.88

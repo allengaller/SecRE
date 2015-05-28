@@ -1,0 +1,7 @@
+E:\Project\JSAC15\UserClient\bin\Release\UserClient.exe
+E:\Project\JSAC15\UserClient\bin\Release\UserClient.pdb
+E:\Project\JSAC15\UserClient\obj\x86\Release\UserClient.Properties.Resources.resources
+E:\Project\JSAC15\UserClient\obj\x86\Release\UserClient.csproj.GenerateResource.Cache
+E:\Project\JSAC15\UserClient\obj\x86\Release\UserClient.exe
+E:\Project\JSAC15\UserClient\obj\x86\Release\UserClient.pdb
+E:\Project\JSAC15\UserClient\obj\x86\Release\UserClient.UserClientTest.resources

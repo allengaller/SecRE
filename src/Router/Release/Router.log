@@ -1,0 +1,12 @@
+﻿Build started 2015/5/28 0:25:47.
+     1>Project "E:\Project\JSAC15\Router\Router.vcxproj" on node 3 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\Router.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       FinalizeBuildStatus:
+         Deleting file "Release\Router.unsuccessfulbuild".
+         Touching "Release\Router.lastbuildstate".
+     1>Done Building Project "E:\Project\JSAC15\Router\Router.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.07
