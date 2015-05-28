@@ -7,7 +7,7 @@ of in-network caching. This is a prototype that implements the experiment of our
 
 It mainly includes two parts experimental evaluation : the performance of the encrypted fingerprint index and the performance of secure video delivery with RE support.
 
-this implementation includes three parts. the encrypted fingerprint index is written in C++ and uses [Openssl library] [1], it support query operations in .
+this implementation includes three parts. the encrypted fingerprint index is written in C++ and uses [Openssl library] [1].
 
 
 [1]: https://www.openssl.org/ "Openssl"
