@@ -1,4 +1,4 @@
-#SecRE
+SecRE
 =====
 
 SecRE is a new networked system for efficient 
