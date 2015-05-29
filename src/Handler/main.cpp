@@ -12,7 +12,7 @@
 
 #include "../Caravel/ShmCtl.h"
 
-//time compute
+//time 
 #include "../Caravel/TimeDiff.h"
 
 //Config
@@ -47,7 +47,7 @@ void PrintCmdList(){
     cout<<"©³©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©·"<<endl;
     cout<<"©§                                                                                                      ©§"<<endl;
     cout<<"©§                                                                                                      ©§"<<endl;
-    cout<<"©§                                          Controller Command List                                     ©§"<<endl;
+    cout<<"©§                                          Request Handler Command List                                     ©§"<<endl;
     cout<<"©§                                                                                                      ©§"<<endl;
     cout<<"©§                                                                                                      ©§"<<endl;
     cout<<"©§     Input Command Below :                                                                            ©§"<<endl;
@@ -55,15 +55,15 @@ void PrintCmdList(){
     cout<<"©§                                                                                                      ©§"<<endl;
     cout<<"©§         0 Exit                                                                                       ©§"<<endl;
     cout<<"©§                                                                                                      ©§"<<endl;
-    cout<<"©§         1 Init SSECuckoo And Put Data                                                                ©§"<<endl;
+    cout<<"©§         1 Init SSECuckoo and Insert Data                                                                ©§"<<endl;
     cout<<"©§                                                                                                      ©§"<<endl;
     cout<<"©§         2 Encrypt Index                                                                              ©§"<<endl;
     cout<<"©§                                                                                                      ©§"<<endl;
-    cout<<"©§         3 Test the Get Operator                                                                      ©§"<<endl;
+    cout<<"©§         3 Test Batch Get Requests                                                                     ©§"<<endl;
     cout<<"©§                                                                                                      ©§"<<endl;
-    cout<<"©§         4 Test one Get Operator                                                                      ©§"<<endl;
+    cout<<"©§         4 Test Single Get Request                                                                     ©§"<<endl;
     cout<<"©§                                                                                                      ©§"<<endl;
-    cout<<"©§         5 Init Index On Share Memory                                                                 ©§"<<endl;
+    cout<<"©§         5 Init Index in Shared Memory                                                                 ©§"<<endl;
     cout<<"©§                                                                                                      ©§"<<endl;
     cout<<"©§                                                                                                     ©§"<<endl;
     cout<<"©§                                                                                                      ©§"<<endl;
@@ -97,25 +97,25 @@ int main(int argc, char **argv)
         case 49:
             {
                 //1
-                cout<<"Begin to Init the Index"<<endl;
-                uiNum = PrintAndGet<uint32_t>("Please input the number of records you wants to put in Index. [ Then Press Enter ]");
-                dLoad = PrintAndGet<double>("Please input the load of Index. [ Then Press Enter ]");
-                uiB = PrintAndGet<uint32_t>("Please input the number of entrys per bucket. [ Then Press Enter ]");
-                uiC = PrintAndGet<uint32_t>("Please input the split number of data value. [ Then Press Enter ]");
+                cout<<"Begin to init the index"<<endl;
+                uiNum = PrintAndGet<uint32_t>("Please input the number of data records that you want to put in the index. [ Then Press Enter ]");
+                dLoad = PrintAndGet<double>("Please input the load factor of index. [ Then Press Enter ]");
+                uiB = PrintAndGet<uint32_t>("Please input the number of entries per bucket. [ Then Press Enter ]");
+                uiC = PrintAndGet<uint32_t>("Please input the number of chunks for each data record. [ Then Press Enter ]");
                 //This work for demo. To Set the split slice.
                 uint32_t uiIndexNum = uiNum * uiC;
                 uint64_t uiAllMem = oSSECuckoo.Size(uiIndexNum, dLoad, uiB, DEF_DATA_SIZE);
-                cout<<"We work out the memory size : "<<uiAllMem<<endl;
+                cout<<"Required memory size : "<<uiAllMem<<endl;
                 if(NULL != pMem)
                 {
                     delete [] pMem;
                 }
                 pMem = new char[uiAllMem];
                 uiAllMem = oSSECuckoo.Init(pMem, uiIndexNum, dLoad, uiB, DEF_DATA_SIZE, DEF_MAX_KICKOUT);
-                cout<<"In fact, All Memory size : "<<uiAllMem<<endl;
+                cout<<"The allocated memory size: "<<uiAllMem<<endl;
                 cout<<"Finish Init."<<endl;
 
-                cout<<"Init Random Data to prepare insert."<<endl;
+                cout<<"Init random data records for insertion."<<endl;
 
                 //Check parKeys [Key]
                 if(NULL != parKeys)
@@ -158,7 +158,7 @@ int main(int argc, char **argv)
                 }
 
                 //Put the data
-                cout<<"Begin to Insert the Data"<<endl;
+                cout<<"Begin insertion"<<endl;
 
                 TimeDiff::DiffTimeInMicroSecond();
                 for(uint32_t uiCur = 0; uiCur < uiNum; uiCur++)
@@ -169,8 +169,8 @@ int main(int argc, char **argv)
                     }
                 }
                 uint32_t uiTime = TimeDiff::DiffTimeInMicroSecond();
-                cout<<"Build Plaintext Index : "<<uiTime<<endl;
-                cout<<"All Kickout Time : "<<oSSECuckoo.GetKick()<<endl;
+                cout<<"The time of insertion procedure: "<<uiTime<<endl;
+                cout<<"Total number of Kickout operations: "<<oSSECuckoo.GetKick()<<endl;
 
                 break;
             }
@@ -182,18 +182,16 @@ int main(int argc, char **argv)
                 TimeDiff::DiffTimeInMicroSecond();
                 oSSECuckoo.Encrypt();
                 uint32_t uiTime = TimeDiff::DiffTimeInMicroSecond();
-                cout<<"Build Plaintext Index : "<<uiTime<<endl;
+                cout<<"The time of encryption procedure: "<<uiTime<<endl;
 
                 break;
             }
         case 51:
             {
                 //3
-                cout<<"Waiting...No Implementation Now."<<endl;
+                uint32_t uiTestNum = PrintAndGet<uint32_t>("Please input the number of Get requests. [ Then Press Enter ]");
 
-                uint32_t uiTestNum = PrintAndGet<uint32_t>("Please input the number of Get Operator you wants. [ Then Press Enter ]");
-
-                cout<<"Begin to Test Every Get Operator"<<endl;
+                cout<<"Begin to test every Get request"<<endl;
 
                 for(uint32_t uiCur = 0; uiCur < uiTestNum; uiCur++)
                 {
@@ -213,7 +211,7 @@ int main(int argc, char **argv)
         case 52:
             {
                 //4
-                cout<<"Test Equal operator"<<endl;
+                cout<<"Equality checking in buckets"<<endl;
                 for(uint32_t uiCur = 0; uiCur < 10; uiCur++)
                 {
                     if(!oSSECuckoo.Get(parKeys[uiCur], DEF_KEY_SIZE, uiC, pVal[uiCur]))
@@ -228,18 +226,18 @@ int main(int argc, char **argv)
         case 53:
             {
                 //5
-                cout<<"Init Index in Share Memory."<<endl;
+                cout<<"Init index in shared memory."<<endl;
 
 
-                cout<<"Begin to Init the Index"<<endl;
-                uiNum = PrintAndGet<uint32_t>("Please input the number of records you wants to put in Index. [ Then Press Enter ]");
-                dLoad = PrintAndGet<double>("Please input the load of Index. [ Then Press Enter ]");
-                uiB = PrintAndGet<uint32_t>("Please input the number of entrys per bucket. [ Then Press Enter ]");
-                uiC = PrintAndGet<uint32_t>("Please input the split number of data value. [ Then Press Enter ]");
+                cout<<"Begin to init the index"<<endl;
+                uiNum = PrintAndGet<uint32_t>("Please input the number of data records in the index. [ Then Press Enter ]");
+                dLoad = PrintAndGet<double>("Please input the load factor of Index. [ Then Press Enter ]");
+                uiB = PrintAndGet<uint32_t>("Please input the number of entries per bucket. [ Then Press Enter ]");
+                uiC = PrintAndGet<uint32_t>("Please input the number of chunks for each data record. [ Then Press Enter ]");
                 //This work for demo. To Set the split slice.
                 uint32_t uiIndexNum = uiNum * uiC;
                 uint64_t uiAllMem = oSSECuckoo.Size(uiIndexNum, dLoad, uiB, DEF_DATA_SIZE);
-                cout<<"We work out the memory size : "<<uiAllMem<<endl;
+                cout<<"Required memory size : "<<uiAllMem<<endl;
                 if(NULL != pMem)
                 {
                     delete [] pMem;
@@ -254,10 +252,10 @@ int main(int argc, char **argv)
                 }
 
                 uiAllMem = oSSECuckoo.Init(pMem, uiIndexNum, dLoad, uiB, DEF_DATA_SIZE, DEF_MAX_KICKOUT);
-                cout<<"In fact, All Memory size : "<<uiAllMem<<endl;
+                cout<<"The allocated memory size : "<<uiAllMem<<endl;
                 cout<<"Finish Init."<<endl;
 
-                cout<<"Init Random Data to prepare insert."<<endl;
+                cout<<"Init random data records for insertion."<<endl;
 
                 //Check parKeys [Key]
                 if(NULL != parKeys)
@@ -300,7 +298,7 @@ int main(int argc, char **argv)
                 }
 
                 //Put the data
-                cout<<"Begin to Insert the Data"<<endl;
+                cout<<"Begin to insert the data"<<endl;
 
                 TimeDiff::DiffTimeInMicroSecond();
                 for(uint32_t uiCur = 0; uiCur < uiNum; uiCur++)
@@ -311,8 +309,8 @@ int main(int argc, char **argv)
                     }
                 }
                 uint32_t uiTime = TimeDiff::DiffTimeInMicroSecond();
-                cout<<"Build Plaintext Index : "<<uiTime<<endl;
-                cout<<"All Kickout Time : "<<oSSECuckoo.GetKick()<<endl;
+                cout<<"The time of insertion procedure: "<<uiTime<<endl;
+                cout<<"Total number of Kickout operations: "<<oSSECuckoo.GetKick()<<endl;
 
                 break;
             }
@@ -335,7 +333,7 @@ int main(int argc, char **argv)
         
     }while(48 != iCmd);
 
-    cout<<"Good Bye !"<<endl;
+    cout<<"Good Bye!"<<endl;
 
     return 0;
 }

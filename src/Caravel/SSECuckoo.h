@@ -68,15 +68,15 @@ public:
     uint64_t Size(uint32_t uiNum, double dLoad, uint32_t uiB, uint32_t uiS);
 
     //Init the data structure and return the real size
-    //p is the pointer of Memory which can hold the Index
-    //uiW is the count of Entry in one array
-    //uiB is the count of Trunk in one Entry
-    //uiS is the size of one Trunk
-    //uiMaxKick is the max of kickout times.
+    //p is the pointer of Memory that holds the Index
+    //uiW is the capacity of buckets in one array
+    //uiB is the number of entries in one bucket
+    //uiS is the size of entry
+    //uiMaxKick is the threshold for kickout operations.
     //return the memory size of the Index
     uint64_t Init(char *p, uint32_t uiW, uint32_t uiB, uint32_t uiS, uint32_t uiMaxKick, bool bReset = true);
 
-    //uiNum is the number of all records. dPercent is the load.
+    //uiNum is the number of all data records. dPercent is the load factor.
     uint64_t Init(char *p, uint32_t uiNum, double dLoad, uint32_t uiB, uint32_t uiS, uint32_t uiMaxKick, bool bReset = true);
 
 
@@ -85,18 +85,15 @@ public:
     void SetKey(string sMasterKey);
 
     //Put Key and Value
-    //pKey is the pointer of fingerprint, uiKey is the length of pointer for safely using.
-    //uiC is the counter of Data. A big data is split into uiC piece.
-    //pVal is the pointer of value, uiVal is the length of pointer for safely using.
-    // *important* : uiVal can not be greater than uiSize(the size of one Trunk).
+    //pKey is the pointer of fingerprint, uiKey is the length of pointer for safe usage.
+    //uiC is the number of data chunks. A data record is split into uiC chunks.
+    //pVal is the pointer of value (pseudonym), uiVal is the length of pointer for safe usage.
+    // *important* : uiVal can not be greater than uiS (the size of each entry).
     int Put(char *pKey, uint32_t uiKey, uint32_t uiCnt, char **parVal, uint32_t uiVal);
 
     bool Get(char *pKey, uint32_t uiKey, uint32_t uiCnt, char **parRet);
 
     int Encrypt();
-
-
-
 
 };
 

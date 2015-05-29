@@ -26,8 +26,8 @@ int main(int argc, char **argv)
     if(argc != 5)
     {
         cout<<"usage : ./TestSys [A] [B] [C] [D]"<<endl;
-        cout<<"The Seed is [A] ."<<endl;
-        cout<<"The test will consist [B] seconds"<<endl;
+        cout<<"The seed is [A] ."<<endl;
+        cout<<"The test will last [B] seconds"<<endl;
         cout<<"The configure file name [C]"<<endl;
         cout<<"The test will begin at [D] ."<<endl;
         return 0;

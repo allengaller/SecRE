@@ -70,7 +70,7 @@ uint64_t SSECuckoo::Init(char *p, uint32_t uiW, uint32_t uiB, uint32_t uiS, uint
     m_uiLineCnt = uiB * uiW;
     m_uiAllCnt = m_uiLineCnt * 2;
     
-    //Size of Flag and uiSize
+    //Size of Check flag and uiSize
     m_uiSizePerEntry = sizeof(m_uiFlag) + uiS;
     m_uiSizePerBucket = m_uiSizePerEntry * uiB;
 
@@ -78,7 +78,7 @@ uint64_t SSECuckoo::Init(char *p, uint32_t uiW, uint32_t uiB, uint32_t uiS, uint
     m_Line[0] = m_pAll;
     m_Line[1] = m_pAll + m_uiLineCnt * m_uiSizePerEntry;
 
-    //Init the temp memory for caching the Xor.
+    //Init the temp memory for caching the XOR values.
     m_arTempXor = new uint32_t[m_uiAllCnt];
     memset(m_arTempXor, 0, sizeof(m_arTempXor));
 
@@ -138,7 +138,7 @@ bool SSECuckoo::Get(char *pKey, uint32_t uiKey, uint32_t uiCnt, char **parRet)
             uiFind++;
             continue;
         }
-        //Not in. Change another.
+        //Not inside, then change to another.
         //compute the XOR
         char szI2[SHA256_DIGEST_LENGTH];
         PRF::Sha256((char*)uiIdx, sizeof(uint32_t), szT, sizeof(szT), szI2, sizeof(szI2));
@@ -205,7 +205,7 @@ int SSECuckoo::Put(char *pKey, uint32_t uiKey, uint32_t uiCnt, char **parVal, ui
         if(NULL != pData)
         {
             //Empty and set the data
-            //the user must keep in mind that uiVal must greater than uiS !
+            //the user must keep in mind that uiVal must be shorter than uiS !
             memcpy(pData, parVal[uiC], uiVal);
             m_arTempXor[m_uiB * uiIdx[0] + uiB] = uiXor;
             memcpy(m_arMask + SHA256_DIGEST_LENGTH * (uiIdx[0] * m_uiB + uiB), szMask, sizeof(szMask));
@@ -219,14 +219,14 @@ int SSECuckoo::Put(char *pKey, uint32_t uiKey, uint32_t uiCnt, char **parVal, ui
         if(NULL != pData)
         {
             //Empty and set the data
-            //the user must keep in mind that uiVal must greater than uiS !
+            //the user must keep in mind that uiVal must be shorter than uiS !
             memcpy(pData, parVal[uiC], uiVal);
             m_arTempXor[m_uiB * (m_uiW + uiIdx[1]) + uiB] = uiXor;
             memcpy(m_arMask + SHA256_DIGEST_LENGTH * ((m_uiW + uiIdx[1]) * m_uiB + uiB), szMask, sizeof(szMask));
             continue;
         }
 
-        //If it still full , prepare to kickout
+        //If there is no empty entry , prepare to kickout 
         uint32_t uiRand = rand();
         uint32_t uiLine = uiRand % 2;
         uiB = uiRand % m_uiB;
@@ -267,7 +267,7 @@ bool SSECuckoo::_Move(uint32_t uiLine, uint32_t uiI, uint32_t uiB, uint32_t uiKi
 
     uint32_t uiIdx[2];
     uiIdx[uiLine] = uiI;
-    //Get the XOR
+    //Get the XOR value
     uint32_t uiXor = m_arTempXor[m_uiB * (m_uiW * uiLine + uiI) + uiB];
     //Init the Next Line
     uint32_t uiNext = (uiLine + 1) % 2;
@@ -282,7 +282,7 @@ bool SSECuckoo::_Move(uint32_t uiLine, uint32_t uiI, uint32_t uiB, uint32_t uiKi
 
     if(NULL != pData)
     {
-        //Next Place not Full
+        //Next Placement is OK.
 
         //Empty and set the data
         memcpy(pData, m_Line[uiLine] + uiIdx[uiLine] * m_uiSizePerBucket + uiB * m_uiSizePerEntry, m_uiSizePerEntry);
@@ -309,7 +309,7 @@ bool SSECuckoo::_Move(uint32_t uiLine, uint32_t uiI, uint32_t uiB, uint32_t uiKi
             return false;
         }
 
-        //Move to the moved data
+        //Move to the kicked data
         memcpy(m_Line[uiKickLine] + uiIdx[uiKickLine] * m_uiSizePerBucket + uiKickB * m_uiSizePerEntry, m_Line[uiLine] + uiIdx[uiLine] * m_uiSizePerBucket + uiB * m_uiSizePerEntry, m_uiSizePerEntry);
         memset(m_Line[uiLine] + uiIdx[uiLine] * m_uiSizePerBucket + uiB * m_uiSizePerEntry, 0, m_uiSizePerEntry);
         m_arTempXor[m_uiB * (m_uiW * uiKickLine + uiIdx[uiKickLine]) + uiKickB] = uiXor;
@@ -340,13 +340,13 @@ char *SSECuckoo::_SetEntrys(char *pBucket, uint32_t &uiB)
     {
         if(*(uint32_t*)(pBucket + (uiCur * m_uiSizePerEntry) + m_uiS) != m_uiFlag)
         {
-            //Empty and set the flag
+            //Empty and set the check flag
             *(uint32_t*)(pBucket + (uiCur * m_uiSizePerEntry) + m_uiS) = m_uiFlag;
             uiB = uiCur;
             return pBucket + (uiCur * m_uiSizePerEntry);
         }
     }
-    //Full
+    //full
     return NULL;
 }
 
